@@ -431,6 +431,12 @@ GrpcError? grpcErrorDetailsFromTrailers(Map<String, String> trailers) {
   if (statusCode != StatusCode.ok) {
     final message = _tryDecodeStatusMessage(trailers['grpc-message']);
     final statusDetails = trailers[_statusDetailsHeader];
+    if(statusCode==StatusCode.unauthenticated){
+      logout(navigatorKey.currentContext!, showLoading: false);
+      // Matrix.of(navigatorKey.currentContext!).client.logout();
+      // Fluttertoast.showToast(msg: 'Login failed, please try login again');z
+      VRouter.of(navigatorKey.currentContext!).to('/', isReplacement: true);
+    }
     return GrpcError.custom(
       statusCode,
       message,
@@ -440,11 +446,6 @@ GrpcError? grpcErrorDetailsFromTrailers(Map<String, String> trailers) {
       null,
       toCustomTrailers(trailers),
     );
-  }else if(statusCode==StatusCode.unauthenticated){
-    logout(navigatorKey.currentContext!, showLoading: false);
-    // Matrix.of(navigatorKey.currentContext!).client.logout();
-    // Fluttertoast.showToast(msg: 'Login failed, please try login again');z
-    VRouter.of(navigatorKey.currentContext!).to('/', isReplacement: true);
   }
 
   return null;
