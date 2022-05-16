@@ -23,6 +23,7 @@ import '../generated/google/rpc/code.pbenum.dart';
 import '../generated/google/rpc/error_details.pb.dart';
 import '../generated/google/rpc/status.pb.dart';
 import 'io_bits/io_bits.dart' show HttpStatus;
+import 'package:chat_frontend/main.dart';
 
 class StatusCode {
   /// The operation completed successfully.
@@ -437,6 +438,11 @@ GrpcError? grpcErrorDetailsFromTrailers(Map<String, String> trailers) {
       null,
       toCustomTrailers(trailers),
     );
+  }else if(statusCode==StatusCode.unauthenticated){
+    logout(navigatorKey.currentContext!, showLoading: false);
+    // Matrix.of(navigatorKey.currentContext!).client.logout();
+    // Fluttertoast.showToast(msg: 'Login failed, please try login again');z
+    VRouter.of(navigatorKey.currentContext!).to('/', isReplacement: true);
   }
 
   return null;
