@@ -29,3 +29,5 @@ dev_dependencies:
   test: ^1.16.0
   stream_channel: ^2.1.0
   stream_transform: ^2.0.0
+  vrouter: ^1.2.0+15
+
